@@ -1,0 +1,29 @@
+{
+  "name": "loop-observer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/tsc --p tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stephenjjbrown/loop-observer.git"
+  },
+  "author": "Stephen Brown",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stephenjjbrown/loop-observer/issues"
+  },
+  "homepage": "https://github.com/stephenjjbrown/loop-observer#readme",
+  "devDependencies": {
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "dom-loop": "^1.0.1"
+  }
+}
