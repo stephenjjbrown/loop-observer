@@ -1,6 +1,6 @@
 {
   "name": "@pendulum/loop-observer",
-  "version": "1.0.0",
+  "version": "2.3.0",
   "description": "",
   "main": "lib/main.js",
   "directories": {
@@ -21,9 +21,9 @@
   },
   "homepage": "https://github.com/stephenjjbrown/loop-observer#readme",
   "devDependencies": {
-    "typescript": "^3.3.3"
+    "typescript": ">=3.3.333"
   },
   "dependencies": {
-    "dom-loop": "^1.0.1"
+    "dom-loop": "^2.0.0-beta"
   }
 }
