@@ -1,5 +1,7 @@
 import { LoopSubscriber } from "./loop-subscriber";
-export declare abstract class Subscribable<T, TDependencies extends Subscribable<any, any>[]> {
+export declare type AnySubscribable = Subscribable<any, any>;
+export declare type ArrayOfSubscribables = AnySubscribable[];
+export declare abstract class Subscribable<T, TDependencies extends ArrayOfSubscribables> {
     id: number;
     previousValue: T;
     value: T;

@@ -1,11 +1,11 @@
-import { Subscribable } from "./subscribable";
+import { Subscribable, ArrayOfSubscribables, AnySubscribable } from "./subscribable";
 import { loop } from "dom-loop";
 
 // Todo: store dependencies as graph and do topological sort to figure out function call order
 // In the meantime, they should be roughly in the correct order because of typescript / bundling dependency management
 class LoopObserverRegistry {
     //private needsSort = false;
-    private _observers: {[key: string]: Subscribable<any, any>[]} = {
+    private _observers: {[key: string]: ArrayOfSubscribables} = {
         read: [],
         calc: [],
         write: []
@@ -51,13 +51,13 @@ class LoopObserverRegistry {
         }, false);
     }
 
-    register(key: "read" | "calc" | "write", observer: Subscribable<any, any>) {
+    register(key: "read" | "calc" | "write", observer: AnySubscribable) {
         //console.log("registering", observer);
         this.observers[key].push(observer);
         // needsSort = true; // Invalidate current order 
     }
 
-    unregister(observer: Subscribable<any, any>) {
+    unregister(observer: AnySubscribable) {
         const keys = Object.keys(this.observers);
 
         for (let i = 0; i < keys.length; i++) {

@@ -1,12 +1,12 @@
-import { Subscribable } from "./subscribable";
+import { Subscribable, AnySubscribable } from "./subscribable";
 declare class LoopObserverRegistry {
     private _observers;
     readonly observers: {
         [key: string]: Subscribable<any, any>[];
     };
     constructor();
-    register(key: "read" | "calc" | "write", observer: Subscribable<any, any>): void;
-    unregister(observer: Subscribable<any, any>): void;
+    register(key: "read" | "calc" | "write", observer: AnySubscribable): void;
+    unregister(observer: AnySubscribable): void;
 }
 export declare const loopObserverRegistry: LoopObserverRegistry;
 export {};

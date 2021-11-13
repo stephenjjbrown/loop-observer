@@ -1,7 +1,10 @@
 import { LoopSubscriber } from "./loop-subscriber";
 
+export type AnySubscribable = Subscribable<any, any>; // Just to make the type annotations a little more readable but not strictly needed
+export type ArrayOfSubscribables = AnySubscribable[];
+
 // Maybe could be named something better?
-export abstract class Subscribable<T, TDependencies extends Subscribable<any, any>[]> {
+export abstract class Subscribable<T, TDependencies extends ArrayOfSubscribables> {
     id: number;
 
     previousValue: T;

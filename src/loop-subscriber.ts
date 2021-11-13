@@ -1,14 +1,18 @@
-import { Subscribable } from "./subscribable";
+import { Subscribable, AnySubscribable, ArrayOfSubscribables } from "./subscribable";
 
-type ValueFromSubscribable<T extends Subscribable<any, any>> = T["value"];
+export type ValueFromSubscribable<T extends AnySubscribable> = T["value"];
+
 // Extract the value from a Loop Observer using TypeScripts strange Mapped tuple syntax. 
-export type MapTuple<T extends Subscribable<any, any>[]> = { [K in keyof T]: T[K] extends LoopSubscriber<any, any> ? ValueFromSubscribable<T[K]> : never };
+export type ValueFromSubscribables<T extends ArrayOfSubscribables> = { [K in keyof T]: T[K] extends AnySubscribable ? ValueFromSubscribable<T[K]> : never };
+
+// // Typescript's Mapped Tuple syntax
+// type ValueFromSubscribables<T extends Subscribable<any, any>[]> = { [K in keyof T]: T[K] extends Subscribable<any, any> ? ValueFromSubscribable<T[K]> : never}
 
 
-export class LoopSubscriber<T, TDependencies extends Subscribable<any, any>[]> extends Subscribable<T, TDependencies> {
+export class LoopSubscriber<T, TDependencies extends ArrayOfSubscribables> extends Subscribable<T, TDependencies> {
     needsUpdate = true;
 
-    constructor(public action: (...args: MapTuple<TDependencies>) => T, ...dependencies: TDependencies) {
+    constructor(public action: (...args: ValueFromSubscribables<TDependencies>) => T, ...dependencies: TDependencies) {
         super(dependencies);
 
         this.dependencies.forEach(d => d.addDependent(this));

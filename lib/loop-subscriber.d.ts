@@ -1,12 +1,11 @@
-import { Subscribable } from "./subscribable";
-declare type ValueFromSubscribable<T extends Subscribable<any, any>> = T["value"];
-export declare type MapTuple<T extends Subscribable<any, any>[]> = {
-    [K in keyof T]: T[K] extends LoopSubscriber<any, any> ? ValueFromSubscribable<T[K]> : never;
+import { Subscribable, AnySubscribable, ArrayOfSubscribables } from "./subscribable";
+export declare type ValueFromSubscribable<T extends AnySubscribable> = T["value"];
+export declare type ValueFromSubscribables<T extends ArrayOfSubscribables> = {
+    [K in keyof T]: T[K] extends AnySubscribable ? ValueFromSubscribable<T[K]> : never;
 };
-export declare class LoopSubscriber<T, TDependencies extends Subscribable<any, any>[]> extends Subscribable<T, TDependencies> {
-    action: (...args: MapTuple<TDependencies>) => T;
+export declare class LoopSubscriber<T, TDependencies extends ArrayOfSubscribables> extends Subscribable<T, TDependencies> {
+    action: (...args: ValueFromSubscribables<TDependencies>) => T;
     needsUpdate: boolean;
-    constructor(action: (...args: MapTuple<TDependencies>) => T, ...dependencies: TDependencies);
+    constructor(action: (...args: ValueFromSubscribables<TDependencies>) => T, ...dependencies: TDependencies);
     evaluate(): void;
 }
-export {};
