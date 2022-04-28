@@ -6,7 +6,7 @@ import { Subscribable, ArrayOfSubscribables } from "./subscribable";
 
 
 
-export const observe = <T, D extends ArrayOfSubscribables>(key: "calc" | "write", action: (...args: ValueFromSubscribables<D>) => T, ...dependencies: D) => {
+export const observe = <T, D extends ArrayOfSubscribables>(key: "calc" | "write" | "midwrite" | "recalc", action: (...args: ValueFromSubscribables<D>) => T, ...dependencies: D) => {
     const observer = new LoopSubscriber(action, ...dependencies);
     loopObserverRegistry.register(key, observer);
     return observer;
@@ -22,6 +22,8 @@ export const read = <T>(action: () => T) => {
 
 export const write = <T, D extends ArrayOfSubscribables>(action: (...args: ValueFromSubscribables<D>) => T, ...dependencies: D) => observe("write", action, ...dependencies);
 export const calc = <T, D extends ArrayOfSubscribables>(action: (...args: ValueFromSubscribables<D>) => T, ...dependencies: D) => observe("calc", action, ...dependencies);
+export const midwrite = <T, D extends ArrayOfSubscribables>(action: (...args: ValueFromSubscribables<D>) => T, ...dependencies: D) => observe("midwrite", action, ...dependencies);
+export const recalc = <T, D extends ArrayOfSubscribables>(action: (...args: ValueFromSubscribables<D>) => T, ...dependencies: D) => observe("recalc", action, ...dependencies);
 
 export const stopObserving = (observer: LoopSubscriber<any, any>) => loopObserverRegistry.unregister(observer);
 

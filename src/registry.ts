@@ -8,6 +8,8 @@ class LoopObserverRegistry {
     private _observers: {[key: string]: ArrayOfSubscribables} = {
         read: [],
         calc: [],
+        midwrite: [],
+        recalc: [],
         write: []
     }
     // TODO: rename to observers
@@ -29,10 +31,15 @@ class LoopObserverRegistry {
     constructor() {
         let start = -1;
 
+        loop.addPhaseAfter("calc", "read")
+        loop.addPhaseAfter("midwrite", "calc")
+        loop.addPhaseAfter("recalc", "midwrite")
+
         loop.read(() => {
             start = performance.now();
             this.observers.read.forEach(o => o.evaluate());
-            this.observers.calc.forEach(o => o.evaluate());
+
+
             // setTimeout(() => {
             //     this.observers.calc.forEach(o => o.run());
 
@@ -40,6 +47,18 @@ class LoopObserverRegistry {
             //     //this.observers.write.forEach(o => o.run())
             // }, 0);
         }, false);
+
+        loop.add("calc", () => {
+            this.observers.calc.forEach(o => o.evaluate());
+        }, false)
+
+        loop.add("midwrite", () => {
+            this.observers.midwrite.forEach(o => o.evaluate());
+        }, false)
+
+        loop.add("reacalc", () => {
+            this.observers.recalc.forEach(o => o.evaluate());
+        }, false)
 
         loop.write(() => {
             this.observers.write.forEach(o => o.evaluate())
@@ -51,7 +70,7 @@ class LoopObserverRegistry {
         }, false);
     }
 
-    register(key: "read" | "calc" | "write", observer: AnySubscribable) {
+    register(key: "read" | "calc" | "midwrite" | "recalc" | "write", observer: AnySubscribable) {
         //console.log("registering", observer);
         this.observers[key].push(observer);
         // needsSort = true; // Invalidate current order 

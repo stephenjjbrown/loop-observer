@@ -5,7 +5,7 @@ declare class LoopObserverRegistry {
         [key: string]: Subscribable<any, any>[];
     };
     constructor();
-    register(key: "read" | "calc" | "write", observer: AnySubscribable): void;
+    register(key: "read" | "calc" | "midwrite" | "recalc" | "write", observer: AnySubscribable): void;
     unregister(observer: AnySubscribable): void;
 }
 export declare const loopObserverRegistry: LoopObserverRegistry;
