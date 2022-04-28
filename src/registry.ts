@@ -56,7 +56,7 @@ class LoopObserverRegistry {
             this.observers.midwrite.forEach(o => o.evaluate());
         }, false)
 
-        loop.add("reacalc", () => {
+        loop.add("recalc", () => {
             this.observers.recalc.forEach(o => o.evaluate());
         }, false)
 
